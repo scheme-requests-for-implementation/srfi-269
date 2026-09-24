@@ -13,6 +13,12 @@
 - [x] Make it clear how context is constructed and modified (immutable
       alist with sideeffectful values).
 
+## Testing
+- context is used for test's context, so assertion/context can be
+  confusing
+- if is body execution is deffered after testing context, the nested
+  (is (is )) will break
+
 ## Questions
 - [.] Add description to define-suite (name "optional description").
       Can be done with metadata if needed.
@@ -25,10 +31,10 @@
   (expect can be implemented by direct runner/run-assertion message
   call)
 
-- [ ] Add test-loader and define-suite to normative API?
+- [x] Add test-loader and define-suite to normative API?
 - [x] Description in paranthesis together with context is confusing
-- [-] Wrap metadata in parenthesis
-- [ ] Add runner/run-tests message or define reccomendation for running
+- [x] Wrap metadata in parenthesis
+- [-] Add runner/run-tests message or define reccomendation for running
 - [ ] Do we need to discover all tests or only exported?
 - [x] Make context optional for test. An empty context list ignores context.
 - [x] is accept description as a second argument
@@ -59,7 +65,7 @@
 - [x] Call suite-loader with metadata
 - [-] Rename define-suite to define-suite-loader/define-suitel
 - [x] Do we need to wrap define-suite in parenthesis? (yes, same same as define-stream)
-- [ ] Split test/name and test/description, suite/name and
+- [-] Split test/name and test/description, suite/name and
       suite/description. Check out
       https://clojuredocs.org/clojure.test/testing
 - [-] Add `test/id`, `suite/id` recommendation to SRFI (Test runner
