@@ -70,13 +70,13 @@ execution semantics recommendations for test runner implementers.</p>
     <ul>
       <li><a href="#overview">Overview</a></li>
       <li><a href="#terminology">Terminology</a></li>
-      <li><a href="#current-test-runner-parameter">
+      <li><a href="#current-test-runner-parameter">
   current-test-runner parameter</a></li>
       <li>
         <a href="#is-macro">is — assertion macro</a>
         <ul>
-          <li><a href="#syntax">Syntax</a></li>
-          <li><a href="#description">Description</a></li>
+          <li><a href="#is-syntax">Syntax</a></li>
+          <li><a href="#is-description">Description</a></li>
           <li><a href="#return-value">Return value</a></li>
           <li><a href="#constraints">Constraints</a></li>
           <li><a href="#examples">Examples</a></li>
@@ -92,7 +92,13 @@ execution semantics recommendations for test runner implementers.</p>
           <li><a href="#testing-examples">Examples</a></li>
         </ul>
       </li>
-      <li><a href="#metadata-syntax"><code>metadata</code> - auxiliary syntax</a></li>
+      <li>
+        <a href="#metadata-syntax">metadata - auxiliary syntax</a>
+        <ul>
+          <li><a href="#syntax">Syntax</a></li>
+          <li><a href="#description">Description</a></li>
+        </ul>
+      </li>
       <li>
         <a href="#test-macro">test — test definition macro</a>
         <ul>
@@ -144,7 +150,7 @@ execution semantics recommendations for test runner implementers.</p>
     <ul>
       <li><a href="#portable-sample-implementation">Portable Sample Implementation</a></li>
       <li>
-        <a href="#suitbl-mdash-a-full-fledged-testing-library-based-on-srfi-269">suitbl — a full-fledged testing library based
+        <a href="#suitbl-mdash-a-full-fledged-testing-library-based-on-srfi-269">suitbl — a full-fledged testing library based
 on SRFI-269</a>
         <ul>
           <li><a href="#implementation-notes">Implementation Notes</a></li>
@@ -433,7 +439,7 @@ itself or for running tests with alternative test runner.</p>
 
 <h3 id="is-macro">is &mdash; assertion macro</h3>
 
-<h4 id="syntax">Syntax</h4>
+<h4 id="is-syntax">Syntax</h4>
 
 <dl>
   <dt><code>(is <var>expression</var>)</code></dt>
@@ -444,7 +450,7 @@ itself or for running tests with alternative test runner.</p>
   <dd>Same, with a human-readable assertion description.</dd>
 </dl>
 
-<h4 id="description">Description</h4>
+<h4 id="is-description">Description</h4>
 
 <p>The <code>is</code> macro is the sole assertion primitive.  Each
 invocation constructs an <em>assertion entity</em> (an alist) and
@@ -656,14 +662,14 @@ of the outer assertion body.</p>
 
 <h3 id="metadata-syntax"><code>metadata</code> - auxiliary syntax</h3>
 
-<h4>Syntax</h4>
+<h4 id="syntax">Syntax</h4>
 
 <dl>
   <dt><code>(metadata <var>metadata-alist</var>)</code></dt>
   <dd>Attaches definition-time metadata to a test or suite entity.</dd>
 </dl>
 
-<h4>Description</h4>
+<h4 id="description">Description</h4>
 
 <p><code>metadata</code> is an auxiliary syntax keyword recognized by
 <code>test</code>, <code>test-loader</code>, <code>suite</code>,
