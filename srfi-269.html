@@ -45,7 +45,7 @@ hierarchies.  The exported <code>metadata</code> auxiliary syntax
 attaches user-provided information to tests and suites to adjust the
 behavior of a test runner, for example to select tests by tags or to
 enforce timeout values.  The API is tiny,
-yet capable and flexible.  By focusing on the definition and leaving
+yet capable and flexible.  By focusing on the definition, and leaving
 execution semantics to test runners, this SRFI offers a common ground
 that can reduce fragmentation among testing libraries.</p>
 
@@ -152,7 +152,7 @@ execution semantics recommendations for test runner implementers.</p>
       <li><a href="#portable-sample-implementation">Portable Sample Implementation</a></li>
       <li>
         <a href="#suitbl-mdash-a-full-fledged-testing-library-based-on-srfi-269">suitbl — a full-fledged testing library based
-on SRFI-269</a>
+on SRFI 269</a>
         <ul>
           <li><a href="#implementation-notes">Implementation Notes</a></li>
           <li><a href="#portability-considerations">Portability considerations</a></li>
@@ -179,7 +179,7 @@ testing libraries
 Chicken's <a href="https://wiki.call-cc.org/eggref/5/test"><code>test</code>
 egg</a>,
 Chibi's <a href="https://synthcode.com/scheme/chibi/lib/chibi/test.html"><code>(chibi
-test)</code></a>, numerous ad hoc solutions), each with its own
+test)</code></a>, and numerous ad hoc solutions), each with its own
 terminology and conventions.  There is no shared vocabulary for what
 "assertion," "test," and "test suite" mean, making it difficult to
 write portable tests, and nearly impossible to build portable testing
@@ -188,10 +188,10 @@ tools.</p>
 <p>SRFI 64's design couples three distinct concerns: defining tests,
 executing them, and reporting results.  Writing
 a <code>test-assert</code> form <em>is</em> running it: the assertion
-fires as a side effect at load time and that leads to multiple
+fires as a side effect at load time, and that leads to multiple
 consequences.  Tests cannot be defined in one place and run in
-another; the execution strategy cannot be changed without rewriting
-test code; the <code>test-begin</code>/<code>test-end</code> model is
+another, the execution strategy cannot be changed without rewriting
+test code, and the <code>test-begin</code>/<code>test-end</code> model is
 fragile and provides no first-class grouping.  SRFI 64's own rationale
 acknowledges this trade-off, noting that the API "may be a little less
 elegant and 'compositional' than using explicit test objects."</p>
@@ -332,12 +332,12 @@ implementation.  In this section we set up this common glossary.
   stateful.  Typical values include resources created by fixtures,
   callbacks, metadata, and other data needed during a test run.  The
   primary goal of test context is to provide an explicit communication
-  channel between fixtures, tests and test runner.</dd>
+  channel between fixtures, tests, and test runner.</dd>
 
   <dt id="term-test-suite">Test suite</dt>
   <dd>A named grouping of tests and nested test suites, usually
   produced by the <code>suite</code> or <code>suite-loader</code>
-  form.  Suites impose hierarchical structure and may carry metadata
+  form.  Suites impose hierarchical structure, and may carry metadata
   that potentially influences the test running behavior for the entire
   group.</dd>
 
@@ -345,7 +345,7 @@ implementation.  In this section we set up this common glossary.
   <dd>An assertion, test, suite or other testing-related entry usually
   represented as an association list.  Entities are the first-class
   runtime objects that flow from definition code to the test runner.
-  In case of alist, keys are symbols; their prefixes
+  In the alist case, keys are symbols; their prefixes
   (<code>assertion/</code>, <code>test/</code>,
   <code>suite/</code>) indicate which kind of entity they belong
   to.</dd>
@@ -388,10 +388,10 @@ implementation.  In this section we set up this common glossary.
   specifying a timeout, or adding fixtures.</dd>
 
   <dt id="term-source-location">Source location</dt>
-  <dd>An entity, which identifies the location of the source code. Can
+  <dd>An entity that identifies the location of the source code. Can
   be an association list with
   keys <code>filename</code>, <code>line</code>,
-  and <code>column</code> or any other object useful for the specific
+  and <code>column</code>, or any other object useful for the specific
   Scheme implementation.</dd>
 
   <dt id="term-suite-path">Suite path</dt>
@@ -460,8 +460,8 @@ a <code>runner/run-assertion</code> message.  The test runner decides
 how to execute the assertion and what to do with the result.</p>
 
 <p>Programs may rename <code>is</code> when importing it, or wrapper
-libraries may re-export it under a name such as <code>check</code>, using
-the implementation's library renaming facilities.</p>
+libraries may re-export it under a name such as <code>check</code> using
+the implementation's library-renaming facilities.</p>
 
 <p>An optional <var>description</var> expression may be supplied as the
 second argument.  It must evaluate to a string.  When supplied, the
@@ -471,7 +471,7 @@ captured source form.</p>
 
 <p>Every invocation also captures the current
 <a href="#term-assertion-context">assertion context</a>.  The context
-is stored in the assertion entity under <code>assertion/context</code>,
+is stored in the assertion entity under <code>assertion/context</code>
 even when it is empty.  The body thunk must re-establish the captured
 context whenever it evaluates the original expression.  Consequently,
 nested assertions inherit the same context even if a runner invokes
@@ -950,14 +950,14 @@ The <code>suite/location</code> key is optional:</p>
   <li>Suites <em>must not</em> be nested inside a <code>test</code>.
   Invoking <code>suite</code> inside the body of a <code>test</code>
   is an error; the test runner <em>should</em> signal it.  The only
-  exception is if the test runner is overriden inside the test, which
+  exception is if the test runner is overridden inside the test, which
   means that current hierarchy is reset to the empty one and suite is
   not "nested" inside the test anymore.</li>
   <li>Suites <em>may</em> be nested inside other suites to arbitrary
   depth.</li>
   <li>Bare <code>is</code> assertions inside a suite but outside of
   any <code>test</code> are an error; the test runner <em>should</em>
-  signal it.  Enclosing such assertions in <code>testing</code> does
+  signal them.  Enclosing such assertions in <code>testing</code> does
   not implicitly create a test and does not make them valid.
   Assertions belong inside tests.</li>
 </ul>
@@ -1184,19 +1184,19 @@ srfi-269)</code> library:</p>
 <p>The sample implementation uses
 <a href="https://srfi.schemers.org/srfi-229/">SRFI 229</a> tagged
 procedures to identify suite loaders and records source locations
-as <code>#f</code>.  It is intentionally small and includes a basic
-runner suitable for examples and experimentation, it doesn't set
-context, merge load-time, inherit suite metadatas or any other
+as <code>#f</code>.  It is intentionally small, it includes a basic
+runner suitable for examples and experimentation, and it doesn't set
+context, merge load-time, inherit suite metadata or implement any other
 advanced functionality.</p>
 
 <h3 id="suitbl-mdash-a-full-fledged-testing-library-based-on-srfi-269"><code>suitbl</code> &mdash; a full-fledged testing library based
-on SRFI-269</h3>
+on SRFI 269</h3>
 
 <p><code>suitbl</code> is provided as part of
 the <a href="https://git.sr.ht/~abcdw/guile-ares-rs">guile-ares-rs</a>
-project.  It has pretty advanced test runner, with customizable
-schedulers, reporters and many other features.  The definitions API is
-SRFI-269 compatible and contained in a single module:</p>
+project.  It has an advanced test runner, with customizable
+schedulers, reporters, and many other features.  The definitions API is
+SRFI-269-compatible and contained in a single module:</p>
 
 <ul>
   <li><a href="https://git.sr.ht/~abcdw/guile-ares-rs/tree/03db1e41/item/src/guile/ares/suitbl/definitions.scm">definitions.scm</a>
@@ -1275,10 +1275,9 @@ straightforward equivalent in other Scheme systems:</p>
   implementations can use alternative strategies: placing
   suite-loader in a hash table that serves as a global registry, or
   any other mechanism that allows a reliable predicate.</dd>
-</dl>
-
-Sample implementation is written in R7RS, it doesn't provide any
-useful location value and uses syntax-rules instead of syntax-case.
+</dl>  The sample implementation is written in R7RS, doesn't
+provide any useful location value, and
+uses <code>syntax-rules</code> instead of <code>syntax-case</code>.
 
 <h4 id="test-suites">Test suites</h4>
 
@@ -1304,7 +1303,7 @@ useful location value and uses syntax-rules instead of syntax-case.
   short introduction with a live demo.</li>
   <li><a href="https://youtu.be/_NjwHP0r5tM">Portable Test
   Definitions API for Scheme: Deep Dive</a> &mdash; a detailed
-  walkthrough of the design, the message protocol, and the
+  walk-through of the design, the message protocol, and the
   implementation.</li>
 </ul>
 
@@ -1314,11 +1313,11 @@ useful location value and uses syntax-rules instead of syntax-case.
 by <code>clojure.test</code>'s use of first-class test entities and
 its <code>is</code> and <code>testing</code> macros, and by JUnit's test
 primitives for building
-hierarchies.  SRFI 64 provided the foundation and demonstrated the
+hierarchies.  SRFI 64 provided the foundation, and demonstrated the
 need for a portable and runtime-friendly testing API; this SRFI builds
 on the lessons learned from its adoption.</p>
 
-<p>Thanks to Andrew Kravchuk for showcasing Common Lisp testing
+<p>Thanks to Andrew Kravchuk for showcasing the Common Lisp testing
 ecosystem and sharing the experience.</p>
 
 <p>Thanks to Daphne Preston-Kendal for providing valuable feedback and identifying
