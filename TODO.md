@@ -1,3 +1,6 @@
+<!-- SPDX-FileCopyrightText: 2026 Andrew Tropin -->
+<!-- SPDX-License-Identifier: MIT -->
+
 ## Tasks
 - [x] Add a note that is can be renamed on export as check or whatever
 - [x] Remove predicate form for is.
