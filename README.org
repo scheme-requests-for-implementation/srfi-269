@@ -11,7 +11,7 @@ keywords: [[https://srfi.schemers.org/?keywords=testing][Testing]]
 
 This repository hosts [[https://srfi.schemers.org/srfi-269/][SRFI 269]]: Portable Test Definitions, a [[https://srfi.schemers.org/][Scheme Request for Implementation]].
 
-This SRFI is in /draft/ status.
+This SRFI is in /final/ status.
 See also [[/srfi-64/][SRFI 64: A Scheme API for test suites]].
 The full documentation for this SRFI can be found in the [[https://srfi.schemers.org/srfi-269/srfi-269.html][SRFI Document]].
 
